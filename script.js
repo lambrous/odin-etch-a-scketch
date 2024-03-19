@@ -5,7 +5,6 @@ resizeBtn.addEventListener("click", resizeGrid);
 
 function generateGrid(colSize = 16) {
 	const gridSize = colSize ** 2;
-	container.style.width = `${colSize * 10}px`;
 
 	for (let i = 0; i < gridSize; i++) {
 		const block = document.createElement("div");
@@ -29,14 +28,15 @@ function etch() {
 
 function resizeGrid() {
 	const maxSize = 100;
-	let colSize = 16;
+	let colSize;
 
 	do {
-		colSize = +prompt(
-			"How many squares per side would you like for the new grid?",
-			colSize,
+		colSize = prompt(
+			"How many squares per side (up to 100) would you like for the new grid?",
 		);
-	} while (colSize > maxSize || Number.isNaN(colSize));
+		if (colSize === null) return;
+		colSize = Number.parseInt(colSize);
+	} while (colSize > maxSize || colSize <= 0 || Number.isNaN(colSize));
 
 	removeGrid();
 	generateGrid(colSize);
